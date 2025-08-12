@@ -17,17 +17,22 @@
     </HBox>
 
     <HBox spacing="10" alignment="CENTER">
-        <ComboBox fx:id="comboOrigen" promptText="Unidad de origen" prefWidth="180" />
-        <ComboBox fx:id="comboDestino" promptText="Unidad de destino" prefWidth="180" />
+        <ComboBox fx:id="origenCombo" promptText="Unidad de origen" prefWidth="180" />
+        <ComboBox fx:id="destinoCombo" promptText="Unidad de destino" prefWidth="180" />
     </HBox>
 
-    <Button text="Convertir" fx:id="btnConvertir"
-            style="-fx-background-color: #1EC79D; -fx-text-fill: white; -fx-font-weight: bold;"/>
+    <HBox spacing="10" alignment="CENTER">
+        <Button text="Convertir" fx:id="btnConvertir" onAction="#convertir"
+                style="-fx-background-color: #1EC79D; -fx-text-fill: white; -fx-font-weight: bold;"/>
+        <Button text="Limpiar" fx:id="btnLimpiar" onAction="#limpiar"
+                style="-fx-background-color: #E74C3C; -fx-text-fill: white; -fx-font-weight: bold;"/>
+    </HBox>
+
     <Label fx:id="resultadoLabel" text="Resultado: "
            style="-fx-font-size: 16px; -fx-font-weight: bold;" />
 
     <Label text="Historial de conversiones:" style="-fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
-    <TextArea fx:id="historialArea" prefRowCount="10" editable="false"
-              style="-fx-font-family: 'Monospaced';"/>
+
+    <ListView fx:id="historialListView" prefHeight="200" prefWidth="400" />
 
 </VBox>
