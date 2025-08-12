@@ -11,9 +11,10 @@ public class Conversion_UnidadesApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Conversion_UnidadesApplication.class.getResource("Conversion_Unidades-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
+        Scene scene = new Scene(fxmlLoader.load(), 500, 600);
         stage.setTitle("Conversion de Unidades JavaFx");
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
     }
 
