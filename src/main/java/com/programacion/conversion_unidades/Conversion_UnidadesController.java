@@ -5,10 +5,15 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.regex.Pattern;
 
 public class Conversion_UnidadesController {
+
+    private static final Pattern NUMERO_PATTERN = Pattern.compile("-?\\d*\\.?\\d*");
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
     @FXML
     private TextField valorField;
@@ -46,6 +51,15 @@ public class Conversion_UnidadesController {
                 resultadoLabel.setText("Seleccione ambas unidades");
                 return;
             }
+            // Validar que no sean iguales
+            if (origen.equals(destino)) {
+                mostrarAlerta("Seleccione unidades diferentes.");
+                return;
+            }
+            if (!mismaCategoria(origen, destino)) {
+                mostrarAlerta("No se puede convertir entre categorías distintas.");
+                return;
+            }
 
             double resultado = realizarConversion(valor, origen, destino);
 
@@ -57,6 +71,28 @@ public class Conversion_UnidadesController {
 
         } catch (NumberFormatException e) {
             resultadoLabel.setText("Ingrese un valor válido");
+        }
+    }
+    private boolean mismaCategoria(String origen, String destino) {
+        String categoriaOrigen = obtenerCategoria(origen);
+        String categoriaDestino = obtenerCategoria(destino);
+        return categoriaOrigen.equals(categoriaDestino);
+    }
+    private String obtenerCategoria(String unidad) {
+        switch (unidad) {
+            case "Metros":
+            case "Kilómetros":
+            case "Centímetros":
+            case "Pulgadas":
+                return "longitud";
+            case "Celsius":
+            case "Fahrenheit":
+                return "temperatura";
+            case "Libras":
+            case "Kilogramos":
+                return "peso";
+            default:
+                return "desconocido";
         }
     }
 
@@ -79,6 +115,13 @@ public class Conversion_UnidadesController {
             default:
                 return valor;
         }
+    }
+    private void mostrarAlerta(String mensaje) {
+        Alert alerta = new Alert(Alert.AlertType.WARNING);
+        alerta.setTitle("Advertencia");
+        alerta.setHeaderText(null);
+        alerta.setContentText(mensaje);
+        alerta.showAndWait();
     }
 
     private void agregarAlHistorial(String registro) {
